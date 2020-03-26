@@ -147,13 +147,3 @@ class App extends React.Component {
 
 }
 export default App;
-
-
-
-
-
-
-states: https://api.rootnet.in/covid19-in/stats/daily
-Image:  https://covid-19-india.netlify.com/assets/img/coronaLogo.svg
-Global : https://thevirustracker.com/free-api?global=stats
-India : https://thevirustracker.com/free-api?countryTotal=IN
