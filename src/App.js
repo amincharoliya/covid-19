@@ -78,7 +78,7 @@ class App extends React.Component {
 
   componentDidMount() {
 
-    // this.getCountryData( 'IN' );
+    this.getCountryData( 'IN' );
     this.getAllData();
     // this.getCountryNames();
 
