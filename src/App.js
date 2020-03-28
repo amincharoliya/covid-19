@@ -1,33 +1,96 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CountryNames from './data/country_names'
+import CountryCodes from './data/country_codes'
 
+import Loader from './components/loader/loader';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { country: 'india', CountryTodayCases: '', CountryTodayDeaths: '',  countryTotal_cases: '', countryTotal_active_cases: '', countryTotal_serious_cases : '', countryTotal_recovered: '', countryTotal_unresolved: '', countryTotal_deaths: '', globalTotal_cases: '', globalTotal_active_cases: '', globalTotal_serious_cases: '', globalTotal_recovered: '', globalTotal_unresolved: '', globalTotal_deaths: '', globalTotal_new_cases_today: '', globalTotal_new_deaths_today: '', globalTotal_unresolved: '', countryNames: ["Afghanistan","Albania","Algeria","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bangladesh","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Ivory Coast","Central African Republic","Chad","Chile","China","Colombia","Congo","Democratic Republic of Congo","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark","Diamond Princess","Djibouti","Dominican Republic","DR Congo","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Fiji","Finland","France","French Guiana","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Greenland","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Korea","Kosovo","Kuwait","Kyrgyzstan","Lao","Latvia","Lebanon","Lesotho","Liberia","Libya","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Mali","Mauritania","Mexico","Moldova","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Republic of Kosovo","Romania","Russia","Rwanda","Saudi Arabia","Senegal","Serbia","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","UAE","Uganda","United Kingdom","Ukraine","USA","Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam","Western Sahara","Yemen","Zambia","Zimbabwe"], countrieCodes : ["AF","AL","DZ","AO","AR","AM","AU","AT","AZ","BS","BD","BY","BE","BZ","BJ","BT","BO","BA","BW","BR","BN","BG","BF","BI","KH","CM","CA","CI","CF","TD","CL","CN","CO","CG","CD","CR","HR","CU","CY","CZ","DK","DP","DJ","DO","CD","EC","EG","SV","GQ","ER","EE","ET","FK","FJ","FI","FR","GF","TF","GA","GM","GE","DE","GH","GR","GL","GT","GN","GW","GY","HT","HN","HK","HU","IS","IN","ID","IR","IQ","IE","IL","IT","JM","JP","JO","KZ","KE","KP","XK","KW","KG","LA","LV","LB","LS","LR","LY","LT","LU","MK","MG","MW","MY","ML","MR","MX","MD","MN","ME","MA","MZ","MM","NA","NP","NL","NC","NZ","NI","NE","NG","KP","NO","OM","PK","PS","PA","PG","PY","PE","PH","PL","PT","PR","QA","XK","RO","RU","RW","SA","SN","RS","SL","SG","SK","SI","SB","SO","ZA","KR","SS","ES","LK","SD","SR","SJ","SZ","SE","CH","SY","TW","TJ","TZ","TH","TL","TG","TT","TN","TR","TM","AE","UG","GB","UA","US","UY","UZ","VU","VE","VN","EH","YE","ZM","ZW"] };
+    this.state = {
+      isLoading: true,
+      data : {
+        'isLoading': true,
+        'country': 'india',
+        'CountryTodayCases': '',
+        'CountryTodayDeaths': '',
+        'countryTotal_cases': '',
+        'countryTotal_active_cases': '',
+        'countryTotal_serious_cases' : '',
+        'countryTotal_recovered': '',
+        'countryTotal_unresolved': '',
+        'countryTotal_deaths': '',
+        'globalTotal_cases': '',
+        'globalTotal_active_cases': '',
+        'globalTotal_serious_cases': '',
+        'globalTotal_recovered': '',
+        'globalTotal_unresolved': '',
+        'globalTotal_deaths': '',
+        'globalTotal_new_cases_today': '',
+        'globalTotal_new_deaths_today': '',
+        'globalTotal_unresolved': '',
+        'countrynames': CountryNames,
+        'countriecodes' : CountryCodes
+      }
+    };
   }
 
-  getCountryData(a='IN') {
+  getCountryData(a) {
 
-    var data = '';
+    var APIdata = '';
     const {options, value, selectedIndex} = a;
+    this.setState({
+      isLoading: true
+    });
     fetch( `https://thevirustracker.com/free-api?countryTotal=${value}` )
     .then( r => r.json())
     .then( r => {
-      data = r;
+      APIdata = r;
+
+      this.setState( (prevState) => ({
+        data: { ...prevState.data,
+          "countryTotal_cases": APIdata['countrydata'][0].total_cases.toLocaleString(),
+          "countryTotal_active_cases": APIdata['countrydata'][0].total_active_cases.toLocaleString(),
+          "countryTotal_serious_cases": APIdata['countrydata'][0].total_serious_cases.toLocaleString(),
+          "countryTotal_recovered": APIdata['countrydata'][0].total_recovered.toLocaleString(),
+          "countryTotal_unresolved": APIdata['countrydata'][0].total_unresolved.toLocaleString(),
+          "countryTotal_deaths": APIdata['countrydata'][0].total_deaths.toLocaleString(),
+          "CountryTodayCases": APIdata['countrydata'][0].total_new_cases_today.toLocaleString(),
+          "CountryTodayDeaths": APIdata['countrydata'][0].total_new_deaths_today.toLocaleString(),
+          "country": options[selectedIndex].innerText
+        },
+        isLoading: false
+      }));
+
+    });
+  }
+
+  getCountryDataOnLoad(a) {
+
+    this.setState({
+      isLoading: true
+    });
+    var APIdata = '';
+    fetch( `https://thevirustracker.com/free-api?countryTotal=${a}` )
+    .then( r => r.json())
+    .then( r => {
+      APIdata = r;
       this.setState({
-        countryTotal_cases : data['countrydata'][0].total_cases.toLocaleString(),
-        countryTotal_active_cases : data['countrydata'][0].total_active_cases.toLocaleString(),
-        countryTotal_serious_cases : data['countrydata'][0].total_serious_cases.toLocaleString(),
-        countryTotal_recovered : data['countrydata'][0].total_recovered.toLocaleString(),
-        countryTotal_unresolved : data['countrydata'][0].total_unresolved.toLocaleString(),
-        countryTotal_deaths : data['countrydata'][0].total_deaths.toLocaleString(),
-        CountryTodayCases: data['countrydata'][0].total_new_cases_today.toLocaleString(),
-        CountryTodayDeaths : data['countrydata'][0].total_new_deaths_today.toLocaleString(),
-        country: options[selectedIndex].innerText
+        data: { ...this.state.data,
+          "countryTotal_cases": APIdata['countrydata'][0].total_cases.toLocaleString(),
+          "countryTotal_active_cases": APIdata['countrydata'][0].total_active_cases.toLocaleString(),
+          "countryTotal_serious_cases": APIdata['countrydata'][0].total_serious_cases.toLocaleString(),
+          "countryTotal_recovered": APIdata['countrydata'][0].total_recovered.toLocaleString(),
+          "countryTotal_unresolved": APIdata['countrydata'][0].total_unresolved.toLocaleString(),
+          "countryTotal_deaths": APIdata['countrydata'][0].total_deaths.toLocaleString(),
+          "CountryTodayCases": APIdata['countrydata'][0].total_new_cases_today.toLocaleString(),
+          "CountryTodayDeaths": APIdata['countrydata'][0].total_new_deaths_today.toLocaleString(),
+          "country": "India",
+        },
+        isLoading: false
 
       });
 
@@ -58,88 +121,126 @@ class App extends React.Component {
     });
   }
 
-  // getCountryNames(){
-  //   let countries;
-  //   let countryNames = [];
-  //   let country;
-  //   fetch('https://corona.lmao.ninja/countries')
-  //   .then(r => r.json())
-  //   .then(r => {
-  //     countries = r;
-  //     for(country of countries){
-  //       countryNames.push(country.country);
-  //     }
-  //     this.setState( {
-  //       countryNames: countryNames
-  //      });
-  //   });
-  // }
-
-
   componentDidMount() {
 
-    this.getCountryData( 'IN' );
+    this.getCountryDataOnLoad('IN');
     this.getAllData();
-    // this.getCountryNames();
 
   }
   
 
   render() {
 
-    const spanStyle = {
-      display: 'inline-block',
-      paddingRight: '25px',
-      marginBottom: '15px'
-    }
-    const bStyle = {
-      display: 'block',
-    } 
-    const selectStyle = {
-      padding: '8px',
-      fontSize: '16px',
-      fontWeight: 'bold',
-      borderRadius: '4px',
-      marginBottom: '25px',
-      border: '3px solid #0c0e13'
-    } 
-
-    let countriesList = this.state.countryNames.length > 0
-		&& this.state.countryNames.map((item, i) => {
+    let countriesList = this.state.data["countrynames"].length > 0
+		&& this.state.data["countrynames"].map((item, i) => {
 		return (
-			<option key={i} value={this.state.countrieCodes[i]}>{item}</option>
+			<option key={i} value={this.state.data["countriecodes"][i]}>{item}</option>
 		)
 	}, this);
     
     
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1>Covid-19</h1>
-          <h2> WordWide: <span style={{textTransform: "capitalize"}}>  </span> </h2>
-          <div>
-            <span style={spanStyle}> Total Cases: <b style={bStyle}>{this.state.globalTotal_cases}</b> </span>
-            <span style={spanStyle}> Total Deaths: <b style={bStyle}>{this.state.globalTotal_deaths}</b> </span>
-            <span style={{...spanStyle,paddingRight: 0}}>  Total Recovered: <b style={bStyle}>{this.state.globalTotal_recovered}</b> </span>
+      <div className="App bg-gray-800 text-gray-200 min-h-screen">
+        <div id="header">
+          <div class="flex bg-white border-b border-gray-200 fixed top-0 inset-x-0 z-100 h-16 items-center bg-gray-800">
+            <div class="w-full max-w-screen-xl relative mx-auto px-6">
+              <div class="flex items-center -mx-6">
+                <div class="lg:w-1/4 xl:w-1/5 pl-6 pr-6 lg:pr-8">
+                  <div class="flex items-center">
+                    <a href="/" class="block lg:mr-4">
+                      <img className="h-10 w-auto md:block" src={logo} />
+                    </a>
+                    <h1 className="font-mono text-white font-semibold">Track Covid-19</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <h2> <span style={{textTransform: "capitalize"}}> {this.state.country}: </span> </h2>
-          <div>
-            <span style={spanStyle}> Total Cases: <b style={bStyle}>{ this.state.countryTotal_cases }</b> </span>
-            <span style={spanStyle}> Total Active Cases: <b style={bStyle}>{ this.state.countryTotal_active_cases }</b> </span>
-            <span style={spanStyle}> Total Serious Cases: <b style={bStyle}>{ this.state.countryTotal_serious_cases }</b> </span>
-            <span style={spanStyle}> Total Cases Recovered : <b style={bStyle}>{ this.state.countryTotal_recovered }</b> </span>
-            <span style={spanStyle}> Total Cases Unresolved : <b style={bStyle}>{ this.state.countryTotal_unresolved }</b> </span>
-            <span style={spanStyle}> Total Deaths : <b style={bStyle}>{ this.state.countryTotal_deaths }</b> </span>
-            <span style={spanStyle}> Cases Today : <b style={bStyle}>{ this.state.CountryTodayCases }</b> </span>
-            <span style={spanStyle}> Deaths Today : <b style={bStyle}>{ this.state.CountryTodayDeaths }</b> </span>
+        </div>
+
+
+        <section className="App-header w-full max-w-screen-xl relative mx-auto px-6" style={{minHeight: '100vh', alignContent: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+
+          <div className="data-wrap" style={{display: 'flex'}}>
+
+            <div className="global-section">
+
+              <h2 className="font-bold text-center mb-3 text-3xl">Global</h2>
+
+              <table class="table-auto w-full text-center mb-4 text-xl">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-2 text-blue-500">Total Cases</th>
+                    <th class="px-4 py-2 text-red-500">Total Deaths</th>
+                    <th class="px-4 py-2 text-green-500">Total Recovered</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border px-4 py-2 text-blue-500 font-semibold">{this.state.globalTotal_cases}</td>
+                    <td class="border px-4 py-2 text-red-500 font-semibold">{this.state.globalTotal_deaths}</td>
+                    <td class="border px-4 py-2 text-green-500 font-semibold">{this.state.globalTotal_recovered}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+
+            <div className="text-center country-section">
+              <h2 className="text-xl font-bold text-center mb-4 text-2xl">{this.state.data["country"]}</h2>
+
+              <table class="table-auto mb-4 text-left inline-block country-table text-lg">
+                <tbody>
+                  <tr>
+                    <th class="px-4 py-2">Cases Today</th>
+                    <td class="border px-4 py-2 text-center font-semibold">{ this.state.data["CountryTodayCases"] }</td>
+                  </tr>
+                  <tr>
+                    <th class="px-4 py-2 text-red-600">Deaths Today</th>
+                    <td class="border px-4 py-2  text-center text-red-600 font-semibold">{ this.state.data["CountryTodayDeaths"] }</td>
+                  </tr>
+                  <tr>
+                  <th class="px-4 py-2 text-blue-700">Total Active Cases</th>
+                    <td class="border px-4 py-2 text-center font-semibold text-blue-700">{ this.state.data["countryTotal_active_cases"] }</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="table-auto mb-4 text-left inline-block country-table ">
+                <tbody>
+                  <tr>
+                    <th class="px-4 py-2 text-blue-500">Total Cases</th>
+                    <td class="border px-4 py-2 text-center text-blue-500 font-semibold">{ this.state.data["countryTotal_cases"] }</td>
+                  </tr>
+                  <tr>
+                    <th class="px-4 py-2 text-red-500">Total Deaths</th>
+                    <td class="border px-4 py-2  text-center text-red-500 font-semibold">{ this.state.data["countryTotal_deaths"] }</td>
+                  </tr>
+                  <tr>
+                  <th class="px-4 py-2 text-green-500">Total Cases Recovered</th>
+                    <td class="border px-4 py-2  text-center text-green-500 font-semibold">{ this.state.data["countryTotal_recovered"] }</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
           </div>
 
-          <select style={ selectStyle } onChange={(event) => this.getCountryData(event.target)}>
-            <option value="IN">India</option>
-            { countriesList }
-          </select>
-          
-        </header>
+
+          <div className="text-center color-black-300 mt-8 mb-8">
+            <div class="relative w-2/4 inline-block">
+              <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={(event) => this.getCountryData(event.target)}>
+                <option value="IN">India</option>
+                { countriesList }
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"><svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+              {this.state.isLoading ? <Loader /> : ''}
+            </div>
+          </div>
+
+        </section>
       </div>
     );
   }
