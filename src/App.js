@@ -147,7 +147,7 @@ class App extends React.Component {
               <div class="flex items-center -mx-6">
                 <div class="lg:w-1/4 xl:w-1/5 pl-6 pr-6 lg:pr-8">
                   <div class="flex items-center">
-                    <a href="/" class="block lg:mr-4">
+                    <a href="/" class="block mr-4">
                       <img className="h-10 w-auto md:block" src={logo} />
                     </a>
                     <h1 className="font-mono text-white font-semibold">Track Covid-19</h1>
@@ -163,7 +163,7 @@ class App extends React.Component {
 
           <div className="data-wrap" style={{display: 'flex'}}>
 
-            <div className="global-section">
+            <div className="global-section mb-3">
 
               <h2 className="font-bold text-center mb-3 text-3xl">Global</h2>
 
@@ -241,7 +241,16 @@ class App extends React.Component {
           </div>
 
         </section>
+
+        <footer className="footer z-100">
+          <div className="m-h-16 px-4 py-4 max-w-screen-xl mx-auto">
+            <p className="float-left">Developed by <a href="https://www.amincharoliya.com" className="text-blue-600">Amin Charoliya</a></p>
+            <p className="float-right">Data used from <a className="text-blue-600" href="https://thevirustracker.com/" target="_blank">thevirustracker.com</a></p>
+          </div>
+      </footer>
+
       </div>
+
     );
   }
 
