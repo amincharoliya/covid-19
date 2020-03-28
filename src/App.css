@@ -6075,6 +6075,9 @@
 .AnimateRotate{
   animation: AnimateRotate ease 2s infinite;
 }
+.footer > div{
+  min-height: 57px;
+}
 @media (max-width:840px) {
   .data-wrap {
     flex-direction: column;
