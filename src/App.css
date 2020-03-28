@@ -6052,6 +6052,14 @@
   width: 60%;
 }
 
+.footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2d3748a8;
+  
+}
 @keyframes AnimateRotate{
   0% {
     transform:  rotate(0deg);
@@ -6080,5 +6088,15 @@
     display: table !important;
     width: 100%;
     table-layout: fixed !important;
+  }
+  .footer{
+    position: static;
+    display: inline-block;
+    width: 100%;
+  }
+  .footer p{
+    float: none !important;
+    text-align: center;
+    margin-bottom: 10px;
   }
 }
