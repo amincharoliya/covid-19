@@ -229,7 +229,7 @@ class App extends React.Component {
           </div>
 
 
-          <div className="text-center color-black-300 mt-8 mb-8">
+          <div className="text-center color-black-300 mt-8 mb-12">
             <div class="relative w-2/4 inline-block">
               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={(event) => this.getCountryData(event.target)}>
                 <option value="IN">India</option>
@@ -243,7 +243,7 @@ class App extends React.Component {
         </section>
 
         <footer className="footer z-100">
-          <div className="m-h-16 px-4 py-4 max-w-screen-xl mx-auto">
+          <div className="m-h-16 px-4 py-2 max-w-screen-xl mx-auto">
             <p className="float-left">Developed by <a href="https://www.amincharoliya.com" className="text-blue-600">Amin Charoliya</a></p>
             <p className="float-right">Data used from <a className="text-blue-600" href="https://thevirustracker.com/" target="_blank">thevirustracker.com</a></p>
           </div>
