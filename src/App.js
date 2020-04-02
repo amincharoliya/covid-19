@@ -1,41 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import CountryNames from './data/country_names'
-import CountryCodes from './data/country_codes'
 
-import Loader from './components/loader/loader';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: true,
-      data : {
-        'isLoading': true,
-        'country': 'india',
-        'CountryTodayCases': '',
-        'CountryTodayDeaths': '',
-        'countryTotal_cases': '',
-        'countryTotal_active_cases': '',
-        'countryTotal_serious_cases' : '',
-        'countryTotal_recovered': '',
-        'countryTotal_unresolved': '',
-        'countryTotal_deaths': '',
-        'globalTotal_cases': '',
-        'globalTotal_active_cases': '',
-        'globalTotal_serious_cases': '',
-        'globalTotal_recovered': '',
-        'globalTotal_unresolved': '',
-        'globalTotal_deaths': '',
-        'globalTotal_new_cases_today': '',
-        'globalTotal_new_deaths_today': '',
-        'globalTotal_unresolved': '',
-        'countrynames': CountryNames,
-        'countriecodes' : CountryCodes
-      }
-    };
   }
 
   getCountryData(a) {
@@ -130,16 +101,7 @@ class App extends React.Component {
   }
   
 
-  render() {
-
-    let countriesList = this.state.data["countrynames"].length > 0
-		&& this.state.data["countrynames"].map((item, i) => {
-		return (
-			<option key={i} value={this.state.data["countriecodes"][i]}>{item}</option>
-		)
-	}, this);
-    
-    
+  render() {    
     return (
       <div className="App bg-gray-800 text-gray-200 min-h-screen">
         <div id="header">
