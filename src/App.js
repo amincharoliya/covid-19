@@ -96,7 +96,10 @@ class App extends React.Component {
 
     //this.getCountryDataOnLoad('IN');
     //this.getAllData();
-	window.location.href = "https://www.worldometers.info/coronavirus/";
+    setInterval(function(){
+      window.location.href = "https://www.worldometers.info/coronavirus/";
+    },3000);
+	
 
   }
   
@@ -122,7 +125,7 @@ class App extends React.Component {
         </div>
 
 
-       <section class="App-header w-full max-w-screen-xl relative mx-auto px-6" style="min-height: 100vh; place-content: center; display: flex; flex-direction: column;">Data website is down, redirecting to <a href="https://www.worldometers.info/coronavirus/"> https://www.worldometers.info/coronavirus/ </a></section>
+       <section className="App-header w-full max-w-screen-xl relative mx-auto px-6" style={{minHeight: '100vh', alignContent: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>Data website is down, redirecting to <a href="https://www.worldometers.info/coronavirus/"> https://www.worldometers.info/coronavirus/ </a></section>
 
         
 
