@@ -1,12 +1,41 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CountryNames from './data/country_names'
+import CountryCodes from './data/country_codes'
 
+import Loader from './components/loader/loader';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      isLoading: true,
+      data : {
+        'isLoading': true,
+        'country': 'india',
+        'CountryTodayCases': '',
+        'CountryTodayDeaths': '',
+        'countryTotal_cases': '',
+        'countryTotal_active_cases': '',
+        'countryTotal_serious_cases' : '',
+        'countryTotal_recovered': '',
+        'countryTotal_unresolved': '',
+        'countryTotal_deaths': '',
+        'globalTotal_cases': '',
+        'globalTotal_active_cases': '',
+        'globalTotal_serious_cases': '',
+        'globalTotal_recovered': '',
+        'globalTotal_unresolved': '',
+        'globalTotal_deaths': '',
+        'globalTotal_new_cases_today': '',
+        'globalTotal_new_deaths_today': '',
+        'globalTotal_unresolved': '',
+        'countrynames': CountryNames,
+        'countriecodes' : CountryCodes
+      }
+    };
   }
 
   getCountryData(a) {
@@ -96,15 +125,20 @@ class App extends React.Component {
 
     this.getCountryDataOnLoad('IN');
     this.getAllData();
-//     setInterval(function(){
-//       window.location.href = "https://www.worldometers.info/coronavirus/";
-//     },3000);
-	
 
   }
   
 
-  render() {    
+  render() {
+
+    let countriesList = this.state.data["countrynames"].length > 0
+		&& this.state.data["countrynames"].map((item, i) => {
+		return (
+			<option key={i} value={this.state.data["countriecodes"][i]}>{item}</option>
+		)
+	}, this);
+    
+    
     return (
       <div className="App bg-gray-800 text-gray-200 min-h-screen">
         <div id="header">
@@ -125,9 +159,9 @@ class App extends React.Component {
         </div>
 
 
-       <section className="App-header w-full max-w-screen-xl relative mx-auto px-6" style={{minHeight: '100vh', alignContent: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-	              <div className="data-wrap" style={{display: 'flex'}}>
+        <section className="App-header w-full max-w-screen-xl relative mx-auto px-6" style={{minHeight: '100vh', alignContent: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
 
+          <div className="data-wrap" style={{display: 'flex'}}>
 
             <div className="global-section mb-3">
 
@@ -214,8 +248,6 @@ class App extends React.Component {
             <p className="float-right">Data used from <a className="text-blue-600" href="https://thevirustracker.com/" target="_blank">thevirustracker.com</a></p>
           </div>
       </footer>
-
-        
 
       </div>
 
