@@ -45,7 +45,7 @@ class App extends React.Component {
     this.setState({
       isLoading: true
     });
-    fetch( `https://thevirustracker.com/free-api?countryTotal=${value}`,{mode: 'cors'} )
+    fetch( `https://api.thevirustracker.com/free-api?countryTotal=${value}`,{mode: 'cors'} )
     .then( r => r.json())
     .then( r => {
       APIdata = r;
@@ -74,7 +74,7 @@ class App extends React.Component {
       isLoading: true
     });
     var APIdata = '';
-    fetch( `https://thevirustracker.com/free-api?countryTotal=${a}`, {mode: 'cors'} )
+    fetch( `https://api.thevirustracker.com/free-api?countryTotal=${a}`, {mode: 'cors'} )
     .then( r => r.json())
     .then( r => {
       APIdata = r;
@@ -99,7 +99,7 @@ class App extends React.Component {
 
   getAllData(a) {
     var data = '';
-    fetch( 'https://thevirustracker.com/free-api?global=stats', {mode: 'cors'} )
+    fetch( 'https://api.thevirustracker.com/free-api?global=stats', {mode: 'cors'} )
     .then( r => r.json())
     .then( r => {
       data = r;
